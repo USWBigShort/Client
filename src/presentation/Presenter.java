@@ -8,7 +8,7 @@ import domain.usecase.FetchCoinInfoUseCase;
 import java.io.IOException;
 import java.net.*;
 
-public class Main {
+public class Presenter {
     public static void main(String[] args) {
         CoinInfoSocket coinInfoSocket = CoinInfoSocket.getInstance();
         CoinInfoRepository coinInfoRepository = new CoinInfoRepositoryImpl(coinInfoSocket);
