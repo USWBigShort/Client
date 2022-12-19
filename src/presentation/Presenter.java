@@ -10,6 +10,10 @@ import java.net.*;
 
 public class Presenter {
     public static void main(String[] args) {
+
+        View view = new View("USW BigShort");
+        view.setVisible(true);
+
         CoinInfoSocket coinInfoSocket = CoinInfoSocket.getInstance();
         CoinInfoRepository coinInfoRepository = new CoinInfoRepositoryImpl(coinInfoSocket);
         FetchCoinInfoUseCase fetchCoinInfoUseCase = new FetchCoinInfoUseCase(coinInfoRepository);
@@ -35,7 +39,7 @@ public class Presenter {
                      * 받아온 정보 gui에 갱신
                      */
                     try {
-                        Socket clientSocket = new Socket(Inet4Address.getByName("127.0.0.1"), 4000);
+                        Socket clientSocket = new Socket(Inet4Address.getByName("127.0.0.1"), 8888);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
