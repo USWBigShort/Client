@@ -1,15 +1,19 @@
 package presentation;
 
-import data.CoinInfoRepositoryImpl;
+import data.UserInfoSocket;
+import data.repositoryimpl.CoinInfoRepositoryImpl;
 import data.CoinInfoSocket;
+import data.repositoryimpl.UserInfoRepositoryImpl;
 import domain.repository.CoinInfoRepository;
+import domain.repository.UserInfoRepository;
 import domain.usecase.FetchCoinInfoUseCase;
+import domain.usecase.FetchUserInfoUseCase;
 
 import java.io.IOException;
 import java.net.*;
 
 public class Presenter {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         View view = new View("USW BigShort");
         view.setVisible(true);
@@ -18,33 +22,31 @@ public class Presenter {
         CoinInfoRepository coinInfoRepository = new CoinInfoRepositoryImpl(coinInfoSocket);
         FetchCoinInfoUseCase fetchCoinInfoUseCase = new FetchCoinInfoUseCase(coinInfoRepository);
 
-        Thread receiveBroadCastSocket = new Thread(
-                () -> {
-                    while (true) {
-                        try {
-                            System.out.println(fetchCoinInfoUseCase.execute());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        UserInfoSocket userInfoSocket = UserInfoSocket.getInstance();
+        UserInfoRepository userInfoRepository = new UserInfoRepositoryImpl(userInfoSocket);
+        FetchUserInfoUseCase fetchUserInfoUseCase = new FetchUserInfoUseCase(userInfoRepository);
+
+        Thread receiveBroadCastSocket = new Thread(() -> {
+            while (true) {
+                try {
+                    System.out.println(fetchCoinInfoUseCase.execute());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-        );
+            }
+        });
 
         receiveBroadCastSocket.start();
 
-        Thread receiveTCPSocket = new Thread(
-                () -> {
-                    /**
-                     * TODO 서버로부터 매수/매도 요청 받아오기
-                     * 받아온 정보 gui에 갱신
-                     */
-                    try {
-                        Socket clientSocket = new Socket(Inet4Address.getByName("127.0.0.1"), 8888);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        Thread receiveTCPSocket = new Thread (() -> {
+            while (true) {
+                try {
+                    System.out.println(fetchUserInfoUseCase.execute());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-        );
+            }
+        });
 
         receiveTCPSocket.start();
     }

@@ -1,5 +1,6 @@
-package data;
+package data.repositoryimpl;
 
+import data.CoinInfoSocket;
 import domain.repository.CoinInfoRepository;
 
 import java.io.IOException;

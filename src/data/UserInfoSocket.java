@@ -9,7 +9,7 @@ import java.net.Socket;
 public class UserInfoSocket {
     int port = 8888;
     String ip = "127.0.0.1";
-    Socket socket;
+    public Socket socket;
 
     private static UserInfoSocket instance = new UserInfoSocket();
 
