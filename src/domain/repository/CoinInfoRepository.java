@@ -1,4 +1,4 @@
-package domain;
+package domain.repository;
 
 import java.io.IOException;
 

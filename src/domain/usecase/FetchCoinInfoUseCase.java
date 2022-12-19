@@ -1,7 +1,6 @@
 package domain.usecase;
 
-import data.CoinInfoSocket;
-import domain.CoinInfoRepository;
+import domain.repository.CoinInfoRepository;
 
 import java.io.IOException;
 

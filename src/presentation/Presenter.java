@@ -2,7 +2,7 @@ package presentation;
 
 import data.CoinInfoRepositoryImpl;
 import data.CoinInfoSocket;
-import domain.CoinInfoRepository;
+import domain.repository.CoinInfoRepository;
 import domain.usecase.FetchCoinInfoUseCase;
 
 import java.io.IOException;

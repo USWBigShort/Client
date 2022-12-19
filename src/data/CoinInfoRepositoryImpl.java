@@ -1,6 +1,6 @@
 package data;
 
-import domain.CoinInfoRepository;
+import domain.repository.CoinInfoRepository;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
