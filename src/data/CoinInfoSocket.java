@@ -7,7 +7,7 @@ import java.net.MulticastSocket;
 public class CoinInfoSocket {
     int port = 7777;
     String ip = "224.0.0.1";
-    MulticastSocket socket;
+    public MulticastSocket socket;
 
     private static CoinInfoSocket instance = new CoinInfoSocket();
 
