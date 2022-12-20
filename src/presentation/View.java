@@ -191,6 +191,10 @@ public class View extends JFrame implements MainContract.View {
         noticeTotalPanel.add(sendCommandPanel);
     }
 
+    public String getNoticeText() {
+        return noticeTextArea.getText();
+    }
+
     @Override
     public void setAvailableAssets(String assets) {
         availableAssetsValue.setText(assets);
@@ -199,6 +203,11 @@ public class View extends JFrame implements MainContract.View {
     @Override
     public void addCoin(String coinInfo) {
         coinModel.addElement(coinInfo);
+    }
+
+    @Override
+    public void deleteCoin(int idx) {
+        coinModel.remove(idx);
     }
 
     @Override
@@ -211,5 +220,10 @@ public class View extends JFrame implements MainContract.View {
     @Override
     public void updateCoinInfo(String coinInfo, int idx) {
         coinModel.setElementAt(coinInfo, idx);
+    }
+
+    @Override
+    public void updateNotice(String notice) {
+        noticeTextArea.setText(notice);
     }
 }

@@ -44,16 +44,44 @@ public class Presenter implements MainContract.Presenter {
                                 .replace("]","");
                         String updateCoinName = updateCoinInfo.split(",")[0];
                         int idx = 0;
-
                         for(int i = 0; i < view.coinModel.size(); i++) {
                             if(view.coinModel.get(i).toString().startsWith(updateCoinName)) {
                                 idx = i;
                                 break;
                             }
                         }
-
                         view.updateCoinInfo(updateCoinInfo, idx);
+                    }
 
+                    if(msgFromServer.startsWith("ADD:")) {
+                        String updateCoinInfo = msgFromServer
+                                .substring("ADD: ".length())
+                                .replace("[","")
+                                .replace("]","");
+                        view.addCoin(updateCoinInfo);
+                        String noticeText = view.getNoticeText();
+                        noticeText += "\n코인 상장 : " + updateCoinInfo;
+                        view.updateNotice(noticeText);
+                    }
+
+                    if(msgFromServer.startsWith("REMOVE:")) {
+                        String deleteCoinInfo = msgFromServer
+                                .substring("REMOVE: ".length())
+                                .replace("[","")
+                                .replace("]","");
+
+                        String deleteCoinName = deleteCoinInfo.split(",")[0];
+                        int idx = 0;
+                        for(int i = 0; i < view.coinModel.size(); i++) {
+                            if(view.coinModel.get(i).toString().startsWith(deleteCoinName)) {
+                                idx = i;
+                                break;
+                            }
+                        }
+                        view.deleteCoin(idx);
+                        String noticeText = view.getNoticeText();
+                        noticeText += "\n코인 상폐 : " + deleteCoinInfo;
+                        view.updateNotice(noticeText);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
