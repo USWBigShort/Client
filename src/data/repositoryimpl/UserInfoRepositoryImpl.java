@@ -17,11 +17,12 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
     BufferedReader br;
+    PrintStream out;
 
     public UserInfoRepositoryImpl(UserInfoSocket userInfoSocket) throws IOException {
 
         this.userInfoSocket = userInfoSocket;
-        PrintStream out = new PrintStream(this.userInfoSocket.socket.getOutputStream());
+        out = new PrintStream(this.userInfoSocket.socket.getOutputStream());
         InputStreamReader isr = new InputStreamReader(this.userInfoSocket.socket.getInputStream());
         br = new BufferedReader(isr);
     }
@@ -29,5 +30,10 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     @Override
     public String receiveString() throws IOException {
         return br.readLine();
+    }
+
+    @Override
+    public void postString(String msg) throws IOException {
+        out.println(msg);
     }
 }

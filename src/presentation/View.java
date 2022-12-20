@@ -1,7 +1,12 @@
 package presentation;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class View extends JFrame implements MainContract.View {
 
@@ -45,17 +50,16 @@ public class View extends JFrame implements MainContract.View {
 
     private JPanel noticeTotalPanel;
 
+    private String selectedCoin;
+    private Presenter presenter;
+
     public View(String title) throws HeadlessException {
         super(title);
+        presenter = new Presenter();
         setBounds(0, 0, 1000, 500);
         setLayout(new BorderLayout());
 
         setCoinInfoPanel();
-
-        //TODO TEST UPDATE ALL COIN INFO
-        for(int i = 0; i <= 100; ++i) {
-            coinModel.addElement("test" + i);
-        }
 
         setCoinHoldingsPanel();
         setAveragePurchasePricePanel();
@@ -79,7 +83,13 @@ public class View extends JFrame implements MainContract.View {
         coinModel = new DefaultListModel();
         coinList = new JList(coinModel);
         coinList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        coinListScrollView =new JScrollPane(coinList);
+        coinList.addListSelectionListener(listSelectionEvent -> {
+            if(!listSelectionEvent.getValueIsAdjusting()) {	//이거 없으면 mouse 눌릴때, 뗄때 각각 한번씩 호출되서 총 두번 호출
+                selectedCoin = coinList.getSelectedValue().toString().split(",")[0];
+                System.out.println("View : 선택된 코인 " + selectedCoin);
+            }
+        });
+        coinListScrollView = new JScrollPane(coinList);
         coinListScrollView.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
 
         coinInfoPanel.add(coinListScrollView, BorderLayout.NORTH);
@@ -137,7 +147,22 @@ public class View extends JFrame implements MainContract.View {
         buyOrSellValue = new JTextField(10);
 
         buyButton = new JButton("매수");
+        buyButton.addActionListener(actionEvent -> {
+            try {
+                presenter.buySelectedCoin(selectedCoin + " " + buyOrSellValue.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         sellButton = new JButton("매도");
+        sellButton.addActionListener(actionEvent -> {
+            try {
+                presenter.sellSelectedCoin(selectedCoin + " " + buyOrSellValue.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         buyOrSellPanel.add(buyOrSellTitle);
         buyOrSellPanel.add(buyOrSellValue);
@@ -169,5 +194,17 @@ public class View extends JFrame implements MainContract.View {
     @Override
     public void setAvailableAssets(String assets) {
         availableAssetsValue.setText(assets);
+    }
+
+    @Override
+    public void addCoin(String coinInfo) {
+        coinModel.addElement(coinInfo);
+    }
+
+    @Override
+    public void setSelectedCoinInfo(String holdings, String average, String profit) {
+        coinHoldingsValue.setText(holdings);
+        averagePurchasePriceValue.setText(average);
+        coinProfitValue.setText(profit);
     }
 }
