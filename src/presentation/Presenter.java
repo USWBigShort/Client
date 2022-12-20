@@ -38,11 +38,7 @@ public class Presenter implements MainContract.Presenter {
                     System.out.println("Multicast -> " + msgFromServer);
 
                     if(msgFromServer.startsWith("UPDATE:")) {
-                        String updateCoinInfo = msgFromServer
-                                .substring("UPDATE: ".length())
-                                .replaceAll(" ","")
-                                .replace("[","")
-                                .replace("]","");
+                        String updateCoinInfo = StringUtil.CleanUpString(msgFromServer, "UPDATE: ".length());
                         String updateCoinName = updateCoinInfo.split(",")[0];
                         int updateCoinPrice = Integer.parseInt(updateCoinInfo.split(",")[1]);
                         float averagePurchasePrice = Float.parseFloat(view.getSelectedCoinAveragePurchasePriceValue());
@@ -61,10 +57,7 @@ public class Presenter implements MainContract.Presenter {
                     }
 
                     if(msgFromServer.startsWith("ADD:")) {
-                        String updateCoinInfo = msgFromServer
-                                .substring("ADD: ".length())
-                                .replace("[","")
-                                .replace("]","");
+                        String updateCoinInfo = StringUtil.CleanUpString(msgFromServer, "ADD: ".length());
                         view.addCoin(updateCoinInfo);
                         String noticeText = view.getNoticeText();
                         noticeText += "\n코인 상장 : " + updateCoinInfo;
@@ -72,10 +65,7 @@ public class Presenter implements MainContract.Presenter {
                     }
 
                     if(msgFromServer.startsWith("REMOVE:")) {
-                        String deleteCoinInfo = msgFromServer
-                                .substring("REMOVE: ".length())
-                                .replace("[","")
-                                .replace("]","");
+                        String deleteCoinInfo = StringUtil.CleanUpString(msgFromServer, "REMOVE: ".length());
 
                         String deleteCoinName = deleteCoinInfo.split(",")[0];
                         int idx = 0;
@@ -117,10 +107,7 @@ public class Presenter implements MainContract.Presenter {
                     }
 
                     if (msgFromServer.startsWith("HOLDING")) {
-                        String[] msgFormServerList = msgFromServer
-                                .replaceAll(" ","")
-                                .replace("[","")
-                                .replace("]","")
+                        String[] msgFormServerList = StringUtil.CleanUpString(msgFromServer, "HOLDINGS: ".length())
                                 .split(",");
 
                         view.setSelectedCoinInfo(msgFormServerList[1], msgFormServerList[2], msgFormServerList[3]);

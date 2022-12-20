@@ -84,7 +84,7 @@ public class View extends JFrame implements MainContract.View {
         coinList = new JList(coinModel);
         coinList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coinList.addListSelectionListener(listSelectionEvent -> {
-            if(!listSelectionEvent.getValueIsAdjusting()) {	//이거 없으면 mouse 눌릴때, 뗄때 각각 한번씩 호출되서 총 두번 호출
+            if(!listSelectionEvent.getValueIsAdjusting() && coinList.getSelectedValue() != null) {	//이거 없으면 mouse 눌릴때, 뗄때 각각 한번씩 호출되서 총 두번 호출
                 selectedCoin = coinList.getSelectedValue().toString().split(",")[0];
                 System.out.println("View : 선택된 코인 " + selectedCoin);
                 try {
@@ -216,6 +216,7 @@ public class View extends JFrame implements MainContract.View {
 
     @Override
     public void deleteCoin(int idx) {
+        coinList.clearSelection();
         coinModel.remove(idx);
     }
 
