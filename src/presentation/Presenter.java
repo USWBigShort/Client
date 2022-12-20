@@ -40,9 +40,16 @@ public class Presenter implements MainContract.Presenter {
                     if(msgFromServer.startsWith("UPDATE:")) {
                         String updateCoinInfo = msgFromServer
                                 .substring("UPDATE: ".length())
+                                .replaceAll(" ","")
                                 .replace("[","")
                                 .replace("]","");
                         String updateCoinName = updateCoinInfo.split(",")[0];
+                        int updateCoinPrice = Integer.parseInt(updateCoinInfo.split(",")[1]);
+                        float averagePurchasePrice = Float.parseFloat(view.getSelectedCoinAveragePurchasePriceValue());
+                        if(updateCoinName.equals(view.getSelectedCoin()) && averagePurchasePrice != 0) {
+                            String profit = Integer.toString(updateCoinPrice - (int)averagePurchasePrice);
+                            view.updateProfit(profit);
+                        }
                         int idx = 0;
                         for(int i = 0; i < view.coinModel.size(); i++) {
                             if(view.coinModel.get(i).toString().startsWith(updateCoinName)) {

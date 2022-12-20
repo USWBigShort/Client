@@ -10,6 +10,7 @@ public interface MainContract {
         void setSelectedCoinInfo(String holdings, String average, String profit);
         void updateCoinInfo(String coinInfo, int idx);
         void updateNotice(String notice);
+        void updateProfit(String profit);
     }
 
     interface Presenter {

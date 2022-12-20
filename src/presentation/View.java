@@ -200,6 +200,10 @@ public class View extends JFrame implements MainContract.View {
         return noticeTextArea.getText();
     }
 
+    public String getSelectedCoin() { return selectedCoin; }
+
+    public String getSelectedCoinAveragePurchasePriceValue() {return averagePurchasePriceValue.getText();}
+
     @Override
     public void setAvailableAssets(String assets) {
         availableAssetsValue.setText(assets);
@@ -230,5 +234,10 @@ public class View extends JFrame implements MainContract.View {
     @Override
     public void updateNotice(String notice) {
         noticeTextArea.setText(notice);
+    }
+
+    @Override
+    public void updateProfit(String profit) {
+        coinProfitValue.setText(profit);
     }
 }
