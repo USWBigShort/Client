@@ -3,7 +3,7 @@ package presentation;
 import javax.swing.*;
 import java.awt.*;
 
-public class View extends JFrame {
+public class View extends JFrame implements MainContract.View {
 
     private DefaultListModel coinModel;
     private JList coinList;
@@ -164,5 +164,10 @@ public class View extends JFrame {
         noticeTotalPanel.setLayout(new BoxLayout(noticeTotalPanel, BoxLayout.Y_AXIS));
         noticeTotalPanel.add(noticeScrollView);
         noticeTotalPanel.add(sendCommandPanel);
+    }
+
+    @Override
+    public void setAvailableAssets(String assets) {
+        availableAssetsValue.setText(assets);
     }
 }

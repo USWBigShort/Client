@@ -41,7 +41,13 @@ public class Presenter {
         Thread receiveTCPSocket = new Thread (() -> {
             while (true) {
                 try {
-                    System.out.println(fetchUserInfoUseCase.execute());
+                    String msgFromServer = fetchUserInfoUseCase.execute();
+                    System.out.println(msgFromServer);
+
+                    if(msgFromServer.startsWith("기본 비용")) {
+                        view.setAvailableAssets(msgFromServer.substring("기본 비용 ".length()));
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
