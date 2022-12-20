@@ -87,6 +87,11 @@ public class View extends JFrame implements MainContract.View {
             if(!listSelectionEvent.getValueIsAdjusting()) {	//이거 없으면 mouse 눌릴때, 뗄때 각각 한번씩 호출되서 총 두번 호출
                 selectedCoin = coinList.getSelectedValue().toString().split(",")[0];
                 System.out.println("View : 선택된 코인 " + selectedCoin);
+                try {
+                    presenter.getSelectedCoinInfo(selectedCoin);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         coinListScrollView = new JScrollPane(coinList);

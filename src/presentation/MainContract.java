@@ -15,5 +15,6 @@ public interface MainContract {
     interface Presenter {
         void buySelectedCoin(String selectedCoinAndAmount) throws IOException;
         void sellSelectedCoin(String selectedCoinAndAmount) throws IOException;
+        void getSelectedCoinInfo(String selectedCoin) throws IOException;
     }
 }

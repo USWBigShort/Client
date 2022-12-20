@@ -119,7 +119,8 @@ public class Presenter implements MainContract.Presenter {
                         view.setSelectedCoinInfo(msgFormServerList[1], msgFormServerList[2], msgFormServerList[3]);
                     }
 
-                } catch (IOException e) {
+                } catch (IOException | ArrayIndexOutOfBoundsException e) {
+                    view.setSelectedCoinInfo("0","0","0");
                     e.printStackTrace();
                 }
             }
@@ -136,6 +137,12 @@ public class Presenter implements MainContract.Presenter {
     @Override
     public void sellSelectedCoin(String selectedCoinAndAmount) throws IOException {
         postUserInfoUseCase.execute("매도 " + selectedCoinAndAmount);
+    }
+
+    @Override
+    public void getSelectedCoinInfo(String selectedCoin) throws IOException {
+        System.out.println("보내는 코인 이름 : " + selectedCoin + ";");
+        postUserInfoUseCase.execute(selectedCoin);
     }
 }
 
