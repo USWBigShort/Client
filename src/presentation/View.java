@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class View extends JFrame implements MainContract.View {
 
-    private DefaultListModel coinModel;
+    public DefaultListModel coinModel;
     private JList coinList;
     private JScrollPane coinListScrollView;
 
@@ -206,5 +206,10 @@ public class View extends JFrame implements MainContract.View {
         coinHoldingsValue.setText(holdings);
         averagePurchasePriceValue.setText(average);
         coinProfitValue.setText(profit);
+    }
+
+    @Override
+    public void updateCoinInfo(String coinInfo, int idx) {
+        coinModel.setElementAt(coinInfo, idx);
     }
 }

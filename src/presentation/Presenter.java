@@ -34,7 +34,27 @@ public class Presenter implements MainContract.Presenter {
         Thread receiveBroadCastSocket = new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println(fetchCoinInfoUseCase.execute());
+                    String msgFromServer = fetchCoinInfoUseCase.execute();
+                    System.out.println("Multicast -> " + msgFromServer);
+
+                    if(msgFromServer.startsWith("UPDATE:")) {
+                        String updateCoinInfo = msgFromServer
+                                .substring("UPDATE: ".length())
+                                .replace("[","")
+                                .replace("]","");
+                        String updateCoinName = updateCoinInfo.split(",")[0];
+                        int idx = 0;
+
+                        for(int i = 0; i < view.coinModel.size(); i++) {
+                            if(view.coinModel.get(i).toString().startsWith(updateCoinName)) {
+                                idx = i;
+                                break;
+                            }
+                        }
+
+                        view.updateCoinInfo(updateCoinInfo, idx);
+
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -47,7 +67,7 @@ public class Presenter implements MainContract.Presenter {
             while (true) {
                 try {
                     String msgFromServer = fetchUserInfoUseCase.execute();
-                    System.out.println(msgFromServer);
+                    System.out.println("TCP -> " + msgFromServer);
 
                     if(msgFromServer.startsWith("기본 비용")) {
                         view.setAvailableAssets(msgFromServer.substring("기본 비용 ".length()));

@@ -7,6 +7,7 @@ public interface MainContract {
         void setAvailableAssets(String assets);
         void addCoin(String coinInfo);
         void setSelectedCoinInfo(String holdings, String average, String profit);
+        void updateCoinInfo(String coinInfo, int idx);
     }
 
     interface Presenter {
